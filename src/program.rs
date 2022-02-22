@@ -53,3 +53,10 @@ impl Drop for Program {
         unsafe { gl::DeleteProgram(self.id) };
     }
 }
+
+#[macro_export]
+macro_rules! shader_file {
+    ($path:expr) => {
+        cstr!{include_str!(concat!("../shaders/", $path))}
+    };
+}

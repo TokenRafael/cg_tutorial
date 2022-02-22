@@ -4,6 +4,7 @@
 
 extern crate sdl2;
 extern crate gl;
+extern crate ogl_main;
 
 mod util;
 mod shader;
@@ -11,45 +12,17 @@ mod program;
 
 use std::ffi::{CStr, CString};
 use gl::types::*;
+use ogl_main::ogl_main;
 
 use shader::Shader;
 use program::Program;
 
+#[ogl_main]
 fn main() {
-    // Initialize SDL
-    let sdl = sdl2::init().unwrap();
-    let video_subsystem = sdl.video().unwrap();
+    // Create shaders
+    let vert_shader = Shader::from_source_vert(&shader_file!("triangle.vert")).unwrap();
 
-    // Setup GL attributes
-    let gl_attr = video_subsystem.gl_attr();
-
-    gl_attr.set_context_profile(sdl2::video::GLProfile::Core);
-    gl_attr.set_context_version(4, 5);
-
-    // Create a window
-    let window = video_subsystem
-        .window("Game", 900, 700)
-        .opengl() // Setup window to receive GL context
-        .resizable()
-        .build()
-        .unwrap();
-
-    // Create an GL context
-    let gl_context = window.gl_create_context().unwrap();
-    let _gl = gl::load_with(|s| video_subsystem.gl_get_proc_address(s) as *const std::os::raw::c_void);
-    unsafe {
-        gl::Viewport(0, 0, 900, 700);
-        gl::ClearColor(0.3, 0.3, 0.5, 1.0);
-    }
-
-    // Create a shader
-    let vert_shader = Shader::from_source_vert(
-        &CString::new(include_str!("../shaders/triangle.vert")).unwrap(),
-    ).unwrap();
-
-    let frag_shader = Shader::from_source_frag(
-        &CString::new(include_str!("../shaders/triangle.frag")).unwrap(),
-    ).unwrap();
+    let frag_shader = Shader::from_source_frag(&shader_file!("triangle.frag")).unwrap();
 
     // Create a program
     let shader_program = Program::from_shadders(&[vert_shader, frag_shader]).unwrap();

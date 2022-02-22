@@ -1,11 +1,12 @@
 [package]
-name = "opengl"
+name = "ogl_main"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+proc-macro = true
 
 [dependencies]
-sdl2 = "0.35.1"
-gl = "0.14.0"
-ogl_main = { path = "ogl_main"}
+syn = { version = "1.0.86", features = ["full"] }
+quote = "1.0.15"
