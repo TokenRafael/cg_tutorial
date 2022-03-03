@@ -1,2 +1,3 @@
 /target
-/ogl_main/target/**
+/lib/ogl_main/target/**
+/lib/gl/target/

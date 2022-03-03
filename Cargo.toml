@@ -6,6 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sdl2 = "0.35.1"
-gl = "0.14.0"
-ogl_main = { path = "ogl_main"}
+sdl2 = { version = "0.35.1" }
+gl = { path = "lib/gl" }
+ogl_main = { path = "lib/ogl_main" }
+
+[features]
+gl_debug = ["gl/debug"]

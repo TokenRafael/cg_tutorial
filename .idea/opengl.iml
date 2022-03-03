@@ -2,10 +2,12 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/ogl_main/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/gl/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/ogl_main/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
-      <excludeFolder url="file://$MODULE_DIR$/ogl_main/target" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/gl/target" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/ogl_main/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
