@@ -17,7 +17,11 @@ use ogl_main::ogl_main;
 use shader::Shader;
 use program::Program;
 
-#[ogl_main]
+#[ogl_main(
+    title = "Gamer",
+    window = "800x600",
+    bg_color = "0.3 0.3 0.5 1.0",
+)]
 fn main() {
     // Create shaders
     let vert_shader = Shader::from_source_vert(&shader_file!("triangle.vert")).unwrap();
