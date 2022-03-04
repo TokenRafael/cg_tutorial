@@ -1,10 +1,18 @@
-use crate::{util, Shader};
+use crate::{resources, Shader, util};
 use gl::types::*;
 
 /// Wrapper for OpenGL program
 pub struct Program {
     gl: gl::Gl,
     id: GLuint,
+}
+
+#[derive(Debug)]
+pub enum Error {
+    ResourceLoad { name: String, inner: resources::Error },
+    UndefinedShaderType { name: String },
+    CompileError { name: String, message: String },
+    LinkError { name: String, message: String },
 }
 
 impl Program {
@@ -19,7 +27,7 @@ impl Program {
     }
 
     /// Creates a new program from shaders
-    pub fn from_shadders(gl: &gl::Gl, shaders: &[Shader]) -> Result<Self, String> {
+    pub fn from_shaders(gl: &gl::Gl, shaders: &[Shader]) -> Result<Self, String> {
         let id = unsafe { gl.CreateProgram() };
         for shader in shaders {
             unsafe { gl.AttachShader(id, shader.id()) };

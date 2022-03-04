@@ -6,6 +6,8 @@ use crate::util::alloc_cstring_len;
 use gl::types::*;
 use gl::Gl;
 use std::ffi::CStr;
+use crate::program::Error;
+use crate::resources;
 
 /// Interafaces with OpenGL Shaders and loads
 /// shader source code from files.
@@ -16,7 +18,7 @@ use std::ffi::CStr;
 /// The shader object.
 /// # Errors
 /// Returns an error if the shader could not be loaded.
-fn shader_from_source(gl: &gl::Gl, source: &CStr, kind: GLenum) -> Result<GLuint, String> {
+fn shader_from_source(gl: &gl::Gl, source: &CStr, kind: GLenum) -> Result<GLuint, Error> {
     // Load shader
     let id = unsafe { gl.CreateShader(kind) };
     unsafe {
@@ -40,7 +42,10 @@ fn shader_from_source(gl: &gl::Gl, source: &CStr, kind: GLenum) -> Result<GLuint
 
         // Get error
         unsafe { gl.GetShaderInfoLog(id, len, std::ptr::null_mut(), error.as_ptr() as *mut GLchar) }
-        return Err(error.to_string_lossy().into_owned());
+        return Err(Error::CompileError {
+            name: String::from(source.to_str().unwrap()),
+            message: String::from(error.to_str().unwrap()),
+        });
     }
 
     Ok(id)
@@ -65,7 +70,7 @@ impl Shader {
     /// The shader object.
     /// # Errors
     /// Returns an error if the shader could not be loaded.
-    pub fn from_source(gl: &gl::Gl, source: &CStr, kind: GLenum) -> Result<Self, String> {
+    pub fn from_source(gl: &gl::Gl, source: &CStr, kind: GLenum) -> Result<Self, Error> {
         let id = shader_from_source(&gl, source, kind)?;
         Ok(Shader { gl: gl.clone(), id })
     }
@@ -77,7 +82,7 @@ impl Shader {
     /// The shader object.
     /// # Errors
     /// Returns an error if the shader could not be loaded.
-    pub fn from_source_vert(gl: &gl::Gl, source: &CStr) -> Result<Self, String> {
+    pub fn from_source_vert(gl: &gl::Gl, source: &CStr) -> Result<Self, Error> {
         Shader::from_source(gl, source, gl::VERTEX_SHADER)
     }
 
@@ -88,7 +93,7 @@ impl Shader {
     /// The shader object.
     /// # Errors
     /// Returns an error if the shader could not be loaded.
-    pub fn from_source_frag(gl: &gl::Gl, source: &CStr) -> Result<Self, String> {
+    pub fn from_source_frag(gl: &gl::Gl, source: &CStr) -> Result<Self, Error> {
         Shader::from_source(gl, source, gl::FRAGMENT_SHADER)
     }
 }

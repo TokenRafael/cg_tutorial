@@ -9,23 +9,24 @@ extern crate sdl2;
 mod program;
 mod shader;
 mod util;
+mod resources;
+mod from_resource;
 
 use gl::types::*;
 use ogl_main::ogl_main;
 use std::ffi::{CStr, CString};
+use std::path::Path;
 
 use program::Program;
 use shader::Shader;
 
 #[ogl_main(title = "Gamer", window = "800x600", bg_color = "0.3 0.3 0.5 1.0")]
 fn main() {
-    // Create shaders
-    let vert_shader = Shader::from_source_vert(&gl, &shader_file!("triangle.vert")).unwrap();
+    // Load resources
+    let res = resources::Resources::from_rel_path(Path::new("shaders")).unwrap();
 
-    let frag_shader = Shader::from_source_frag(&gl, &shader_file!("triangle.frag")).unwrap();
-
-    // Create a program
-    let shader_program = Program::from_shadders(&gl, &[vert_shader, frag_shader]).unwrap();
+    // Create shader program from resources loaded
+    let shader_program = Program::from_resources(&gl, &res, "triangle").unwrap();
     shader_program.set_used();
 
     // Create a vertex array object

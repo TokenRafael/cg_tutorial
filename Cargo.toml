@@ -10,5 +10,8 @@ sdl2 = { version = "0.35.1" }
 gl = { path = "lib/gl" }
 ogl_main = { path = "lib/ogl_main" }
 
+[build-dependencies]
+walkdir = { version = "2.3.2" }
+
 [features]
 gl_debug = ["gl/debug"]
