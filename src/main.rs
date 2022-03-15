@@ -31,10 +31,10 @@ fn main() {
 
     // Create a vertex array object
     let vertices: Vec<f32> = vec![
-        // Positions        // Colors
-        -0.5, -0.5, 0.0, 1.0, 0.0, 0.0, // Bottom-left
-        0.5, -0.5, 0.0, 0.0, 1.0, 0.0, // Bottom-right
-        0.0, 0.5, 0.0, 0.0, 0.0, 1.0, // Top
+       // Positions        // Colors
+       -0.5, -0.5, 0.0,    1.0, 0.0, 0.0, // Bottom-left
+        0.5, -0.5, 0.0,    0.0, 1.0, 0.0, // Bottom-right
+        0.0,  0.5, 0.0,    0.0, 0.0, 1.0, // Top
     ];
 
     // Create bindings for shader rendering

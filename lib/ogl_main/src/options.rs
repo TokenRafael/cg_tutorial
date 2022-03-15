@@ -68,20 +68,8 @@ pub fn parse_options(attr: AttributeArgs, function: &mut ItemFn) {
         [#(#bg_color),*]
     };
 
-    function
-        .block
-        .stmts
-        .push(syn::parse_quote!(let title = #title;));
-    function
-        .block
-        .stmts
-        .push(syn::parse_quote!(let window_width = #width;));
-    function
-        .block
-        .stmts
-        .push(syn::parse_quote!(let window_height = #height;));
-    function
-        .block
-        .stmts
-        .push(syn::parse_quote!(let bg_color = #bg_color;));
+    function.block.stmts.push(syn::parse_quote!(let title = #title;));
+    function.block.stmts.push(syn::parse_quote!(let window_width = #width;));
+    function.block.stmts.push(syn::parse_quote!(let window_height = #height;));
+    function.block.stmts.push(syn::parse_quote!(let bg_color = #bg_color;));
 }
