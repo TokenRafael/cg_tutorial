@@ -5,6 +5,7 @@
 extern crate gl;
 extern crate ogl_main;
 extern crate sdl2;
+#[macro_use] extern crate failure;
 
 mod program;
 mod shader;
@@ -19,6 +20,7 @@ use std::path::Path;
 
 use program::Program;
 use shader::Shader;
+use crate::program::Error;
 
 #[ogl_main(title = "Gamer", window = "800x600", bg_color = "0.3 0.3 0.5 1.0")]
 fn main() {
@@ -26,7 +28,10 @@ fn main() {
     let res = resources::Resources::from_rel_path(Path::new("shaders")).unwrap();
 
     // Create shader program from resources loaded
-    let shader_program = Program::from_resources(&gl, &res, "triangle").unwrap();
+    let shader_program = match Program::from_resources(&gl, &res, "triangle") {
+        Ok(sp) => sp,
+        Err(e) => { println!("{}", e); return; }
+    };
     shader_program.set_used();
 
     // Create a vertex array object

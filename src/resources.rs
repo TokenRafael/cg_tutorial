@@ -5,10 +5,13 @@ use std::io::Read;
 use std::path::{Path, PathBuf};
 use crate::util;
 
-#[derive(Debug)]
+#[derive(Debug, Fail)]
 pub enum Error {
+    #[fail(display = "I/O Error")]
     Io(io::Error),
+    #[fail(display = "File contains null character")]
     FileContainsNil,
+    #[fail(display = "Failed to find executable path")]
     FailToGetPath,
 }
 
